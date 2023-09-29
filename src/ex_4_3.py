@@ -1,7 +1,5 @@
 """ ex_4_3.py """
-
 import os
-from datetime import timedelta
 
 try:
     from src.ex_4_0 import get_shutdown_events
@@ -16,6 +14,7 @@ except ImportError:
 FILENAME = get_data_file_path("messages.log")
 # >>>> DO NOT MODIFY CODE ABOVE <<<<
 
+
 def time_between_shutdowns(logfile):
     """
     Calculate the time between the first and last shutdown events in the log file.
@@ -24,17 +23,19 @@ def time_between_shutdowns(logfile):
     :return: A timedelta representing the time between the first and last shutdown events.
     """
     shutdown_events = get_shutdown_events(logfile)
+    
+    # Check if there are shutdown events in the log
     if not shutdown_events:
         return timedelta()  # No shutdown events found, return a zero timedelta.
 
-    # Convert the date fields to datetime objects
-    shutdown_events = [logstamp_to_datetime(entry['date']) for entry in shutdown_events]
+    # Extract timestamps from the shutdown events
+    timestamps = [logstamp_to_datetime(entry) for entry in shutdown_events]
 
-    # Sort the events by timestamp
-    shutdown_events.sort()
+    # Sort the timestamps
+    timestamps.sort()
 
     # Calculate the time difference between the first and last shutdown events
-    time_difference = shutdown_events[-1] - shutdown_events[0]
+    time_difference = timestamps[-1] - timestamps[0]
 
     return time_difference
 
