@@ -1,5 +1,5 @@
-""" ex_4_3.py """
 import os
+from datetime import datetime, timedelta
 
 try:
     from src.ex_4_0 import get_shutdown_events
@@ -14,28 +14,26 @@ except ImportError:
 FILENAME = get_data_file_path("messages.log")
 # >>>> DO NOT MODIFY CODE ABOVE <<<<
 
-
 def time_between_shutdowns(logfile):
     """
-    Calculate the time between the first and last shutdown events in the log file.
+    Calculate the amount of time between the first and last shutdowns in a log file.
 
-    :param logfile: The filename of the log file.
-    :return: A timedelta representing the time between the first and last shutdown events.
+    Args:
+    logfile (str): The filename of the log file.
+
+    Returns:
+    timedelta: The time duration between the first and last shutdowns.
     """
     shutdown_events = get_shutdown_events(logfile)
     
-    # Check if there are shutdown events in the log
     if not shutdown_events:
-        return timedelta()  # No shutdown events found, return a zero timedelta.
+        return timedelta()  # Return a zero timedelta if there are no shutdown events.
 
-    # Extract timestamps from the shutdown events
-    timestamps = [logstamp_to_datetime(entry) for entry in shutdown_events]
+    first_shutdown_time = logstamp_to_datetime(shutdown_events[0]['date'])
+    last_shutdown_time = logstamp_to_datetime(shutdown_events[-1]['date'])
 
-    # Sort the timestamps
-    timestamps.sort()
-
-    # Calculate the time difference between the first and last shutdown events
-    time_difference = timestamps[-1] - timestamps[0]
+    # Compute the time difference and ensure it's a positive value.
+    time_difference = abs(last_shutdown_time - first_shutdown_time)
 
     return time_difference
 
