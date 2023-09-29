@@ -1,5 +1,5 @@
+""" ex_4_3.py """
 import os
-from datetime import datetime, timedelta
 
 try:
     from src.ex_4_0 import get_shutdown_events
@@ -13,6 +13,7 @@ except ImportError:
 # Use this FILENAME variable to test your function.
 FILENAME = get_data_file_path("messages.log")
 # >>>> DO NOT MODIFY CODE ABOVE <<<<
+
 
 def time_between_shutdowns(logfile):
     """
@@ -29,6 +30,7 @@ def time_between_shutdowns(logfile):
     if not shutdown_events:
         return timedelta()  # Return a zero timedelta if there are no shutdown events.
 
+    # Convert the date fields to datetime objects for the first and last shutdown events.
     first_shutdown_time = logstamp_to_datetime(shutdown_events[0]['date'])
     last_shutdown_time = logstamp_to_datetime(shutdown_events[-1]['date'])
 
